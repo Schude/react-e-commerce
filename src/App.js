@@ -63,6 +63,16 @@ function App() {
         product.inCart = !product.inCart;
         setProducts([...products]);
     };
+    const clearCart = () => {
+        const cartItems = products.filter((product) => product.inCart === true);
+        cartItems.map((item) => (item.inCart = false));
+        setProducts([...products]);
+    };
+    const clearFavorites = () => {
+        const cartItems = products.filter((product) => product.isFav === true);
+        cartItems.map((item) => (item.isFav = false));
+        setProducts([...products]);
+    };
     return (
         <div className="App">
             <Switch>
@@ -114,6 +124,7 @@ function App() {
                         <Favorites
                             handleCart={handleCart}
                             handleFav={handleFavorite}
+                            clear = {clearFavorites}
                             favorites={
                                 products &&
                                 products.filter(
@@ -135,6 +146,7 @@ function App() {
                         <Cart
                             handleCart={handleCart}
                             handleFav={handleFavorite}
+                            clear={clearCart}
                             cart={
                                 products &&
                                 products.filter(
