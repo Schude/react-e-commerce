@@ -1,7 +1,10 @@
 # Shop
 
- [Live | Demo](https://shopping-ashen.vercel.app/).
+ [Live | Demo](https://shopping-ashen.vercel.app/)
+ 
+ Please ignore UI
 
 # Todos
 - Add multiple same product to cart
-- Product categorization
+- Sharing styled components
+- Clean the code
