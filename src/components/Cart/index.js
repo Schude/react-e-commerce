@@ -1,11 +1,17 @@
-import React from "react";
-import ProductContainer from "../Products";
-import { Button } from "../Products/ProductCard/styles";
-import { Payment, CartContainer } from "./styles";
-const Cart = ({ cart, handleFav, handleCart, clear }) => {
+import React from 'react';
+import ProductContainer from '../Products';
+import {Button} from '../Products/ProductCard/styles';
+import {Payment, CartContainer} from './styles';
+const Cart = ({
+    cart,
+    handleFav,
+    clear,
+    handleIncrement,
+    handleDecrement,
+}) => {
     const calculateTotalPrice = () => {
-        let totalPrice = cart.reduce(function (accumulator, item) {
-            return accumulator + item.price;
+        let totalPrice = cart.reduce((accumulator, item) => {
+            return accumulator + item.price * item.cart_count;
         }, 0);
         return totalPrice;
     };
@@ -15,15 +21,16 @@ const Cart = ({ cart, handleFav, handleCart, clear }) => {
             {cart.length !== 0 ? (
                 <CartContainer>
                     <ProductContainer
-                        handleCart={handleCart}
                         handleFav={handleFav}
                         products={cart}
+                        handleIncrement={handleIncrement}
+                        handleDecrement={handleDecrement}
                     />
                     <Payment>
                         <p> Total Price: {calculateTotalPrice()} $</p>
 
                         <Button onClick={clear} width="250px">
-                            {" "}
+                            {' '}
                             Clear Cart
                         </Button>
                         <Button width="250px"> Purchase</Button>

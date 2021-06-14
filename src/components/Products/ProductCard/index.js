@@ -1,6 +1,7 @@
-import React from "react";
-import { Card, Button, Content, ImgBox, Text, Image } from "./styles";
-import { Link } from "react-router-dom";
+import React from 'react';
+import {Card, Button, Content, ImgBox, Text, Image} from './styles';
+import {Link} from 'react-router-dom';
+import Counter from './Counter';
 
 const ProductCard = (props) => {
     return (
@@ -11,22 +12,32 @@ const ProductCard = (props) => {
 
             <Content>
                 <Link to={`/product/${props.id}`}>
-                    {" "}
+                    {' '}
                     <Text> {props.title} </Text>
                 </Link>
 
                 <Text> {props.price}$ </Text>
-                <Button
-                    id={props.id}
-                    onClick={props.handleCart}
-                    hBGcolor="#2280f6"
-                    bgcolor="#3ba0db"
-                >
-                    {" "}
-                    {props.inCart ? "Sepetten Çıkart" : "Sepete Ekle"}
-                </Button>
+
+                {props.cart_count > 0 ? (
+                    <Counter
+                        onIncrement={props.onIncrement}
+                        onDecrement={props.onDecrement}
+                        id={props.id}
+                        count={props.cart_count}
+                    />
+                ) : (
+                    <Button
+                        id={props.id}
+                        onClick={props.onIncrement}
+                        hBGcolor="#2280f6"
+                        bgcolor="#3ba0db"
+                    >
+                        {'Sepete Ekle'}
+                    </Button>
+                )}
+
                 <Button id={props.id} onClick={props.handleFav}>
-                    {props.isFav ? "Favorilerden Çıkart" : "Favorilere Ekle"}
+                    {props.isFav ? 'Favorilerden Çıkart' : 'Favorilere Ekle'}
                 </Button>
             </Content>
         </Card>

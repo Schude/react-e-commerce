@@ -1,6 +1,6 @@
-import React from "react";
-import { Container, ListItem, CategoryList } from "./styles";
-const Categories = ({ categories, click }) => {
+import React from 'react';
+import {Container, ListItem, CategoryList} from './styles';
+const Categories = ({categories, click}) => {
     const handleClick = (e) => {
         click(e.target.id);
     };
@@ -10,8 +10,8 @@ const Categories = ({ categories, click }) => {
                 {categories &&
                     categories.map((category, i) => (
                         <ListItem onClick={handleClick} id={category} key={i}>
-                            {" "}
-                            {category}{" "}
+                            {' '}
+                            {category}{' '}
                         </ListItem>
                     ))}
             </CategoryList>

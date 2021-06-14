@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Card = styled.div`
     width: 250px;
@@ -30,7 +30,6 @@ export const Image = styled.img`
     height: 100%;
 `;
 export const Text = styled.p`
-    // width: 100%;
     margin-bottom: 4px;
     margin-top: 13px;
     padding: 0 8px;
@@ -42,15 +41,20 @@ export const Text = styled.p`
 
 export const Button = styled.button`
     border-radius: 6px;
-    width: ${(props) => props.width || "180px"};
-    height: ${(props) => props.height || "40px"};
+    width: ${(props) => props.width || '180px'};
+    height: ${(props) => props.height || '40px'};
     border: none;
     margin: 2px 0;
     font-weight: 600;
-    background-color: ${(props) => props.bgcolor || "#fcce9f"};
+    background-color: ${(props) => props.bgcolor || '#fcce9f'};
     cursor: pointer;
     color: #202329;
     &:hover {
-        background-color: ${(props) => props.hBGcolor || "#fca74e"};
+        background-color: ${(props) => props.hBGcolor || '#fca74e'};
     }
+`;
+export const CounterWrapper = styled.div`
+    margin: 0 auto;
+    display: flex;
+    justify-content:center;
 `;

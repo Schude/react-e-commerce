@@ -1,23 +1,23 @@
-import "./App.css";
-import Layout from "./components/Layout";
-import ProductContainer from "./components/Products";
-import { useState, useEffect, useCallback } from "react";
-import axios from "axios";
-import { Route, Switch } from "react-router-dom";
-import Detail from "./components/Detail";
-import Favorites from "./components/Favorites";
-import Cart from "./components/Cart";
-import Categories from "./components/Categories";
+import './App.css';
+import Layout from './components/Layout';
+import ProductContainer from './components/Products';
+import {useState, useEffect, useCallback} from 'react';
+import axios from 'axios';
+import {Route, Switch} from 'react-router-dom';
+import Detail from './components/Detail';
+import Favorites from './components/Favorites';
+import Cart from './components/Cart';
+import Categories from './components/Categories';
 function App() {
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState();
-    const [activeCategory, setActiveCategory] = useState("All");
+    const [activeCategory, setActiveCategory] = useState('All');
     useEffect(() => {
         getProducts();
     }, []);
 
     const getCategories = useCallback(() => {
-        let categories = ["All"];
+        let categories = ['All'];
         // eslint-disable-next-line array-callback-return
         products.map((item) => {
             if (!categories.includes(item.category)) {
@@ -28,14 +28,15 @@ function App() {
     }, [products]);
 
     useEffect(() => {
-        setCategories((prev) => (prev = getCategories()));
+        setCategories(getCategories());
     }, [getCategories]);
 
     const getProducts = async () => {
-        const res = await axios.get("https://fakestoreapi.com/products");
+        const res = await axios.get('https://fakestoreapi.com/products');
         res.data.map((product) => {
             product.isFav = false;
             product.inCart = false;
+            product.cart_count = 0;
             return product;
         });
         setProducts(res.data);
@@ -48,7 +49,7 @@ function App() {
         let filteredProducts = products.filter(
             (product) => product.category === activeCategory
         );
-        if (activeCategory === "All") {
+        if (activeCategory === 'All') {
             filteredProducts = products;
         }
         return filteredProducts;
@@ -58,14 +59,19 @@ function App() {
         product.isFav = !product.isFav;
         setProducts([...products]);
     };
-    const handleCart = (e) => {
-        const product = getSingleProduct(e.target.id);
-        product.inCart = !product.inCart;
+    const handleIncrement = ({target}) => {
+        const product = getSingleProduct(target.id);
+        product.cart_count++;
+        setProducts([...products]);
+    };
+    const handleDecrement = ({target}) => {
+        const product = getSingleProduct(target.id);
+        product.cart_count--;
         setProducts([...products]);
     };
     const clearCart = () => {
-        const cartItems = products.filter((product) => product.inCart === true);
-        cartItems.map((item) => (item.inCart = false));
+        const cartItems = products.filter((product) => product.cart_count > 0);
+        cartItems.map((item) => (item.cart_count = 0));
         setProducts([...products]);
     };
     const clearFavorites = () => {
@@ -80,9 +86,7 @@ function App() {
                     <Layout
                         count={
                             products &&
-                            products.filter(
-                                (product) => product.inCart === true
-                            ).length
+                            products.reduce( (prev, curr) => prev + curr.cart_count, 0)
                         }
                     >
                         <Categories
@@ -90,7 +94,8 @@ function App() {
                             categories={categories}
                         />
                         <ProductContainer
-                            handleCart={handleCart}
+                            handleIncrement={handleIncrement}
+                            handleDecrement={handleDecrement}
                             handleFav={handleFavorite}
                             products={filteredProducts()}
                         />
@@ -100,13 +105,12 @@ function App() {
                     <Layout
                         count={
                             products &&
-                            products.filter(
-                                (product) => product.inCart === true
-                            ).length
+                            products.reduce( (prev, curr) => prev + curr.cart_count, 0)
                         }
                     >
                         <Detail
-                            handleCart={handleCart}
+                            handleIncrement={handleIncrement}
+                            handleDecrement={handleDecrement}
                             handleFav={handleFavorite}
                             get={getSingleProduct}
                         ></Detail>
@@ -116,15 +120,14 @@ function App() {
                     <Layout
                         count={
                             products &&
-                            products.filter(
-                                (product) => product.inCart === true
-                            ).length
+                            products.reduce( (prev, curr) => prev + curr.cart_count, 0)
                         }
                     >
                         <Favorites
-                            handleCart={handleCart}
+                            handleIncrement={handleIncrement}
+                            handleDecrement={handleDecrement}
                             handleFav={handleFavorite}
-                            clear = {clearFavorites}
+                            clear={clearFavorites}
                             favorites={
                                 products &&
                                 products.filter(
@@ -138,19 +141,18 @@ function App() {
                     <Layout
                         count={
                             products &&
-                            products.filter(
-                                (product) => product.inCart === true
-                            ).length
+                            products.reduce( (prev, curr) => prev + curr.cart_count, 0)
                         }
                     >
                         <Cart
-                            handleCart={handleCart}
                             handleFav={handleFavorite}
+                            handleIncrement={handleIncrement}
+                            handleDecrement={handleDecrement}
                             clear={clearCart}
                             cart={
                                 products &&
                                 products.filter(
-                                    (product) => product.inCart === true
+                                    (product) => product.cart_count > 0
                                 )
                             }
                         ></Cart>

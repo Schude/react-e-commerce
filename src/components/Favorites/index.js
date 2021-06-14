@@ -1,14 +1,20 @@
-import React from "react";
-import ProductContainer from "../Products";
-import { Button } from "../Products/ProductCard/styles";
-const Favorites = ({ favorites, handleFav, handleCart, clear }) => {
-    console.log(favorites);
+import React from 'react';
+import ProductContainer from '../Products';
+import {Button} from '../Products/ProductCard/styles';
+const Favorites = ({
+    favorites,
+    handleFav,
+    handleIncrement,
+    handleDecrement,
+    clear,
+}) => {
     return (
         <>
             {favorites.length !== 0 ? (
                 <>
                     <ProductContainer
-                        handleCart={handleCart}
+                        handleIncrement={handleIncrement}
+                        handleDecrement={handleDecrement}
                         handleFav={handleFav}
                         products={favorites}
                     />
